@@ -1,4 +1,4 @@
-module.export = {
+module.exports = {
   error404: `<!DOCTYPE html>
     <html lang="en">
     <head>

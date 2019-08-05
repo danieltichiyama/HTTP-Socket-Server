@@ -5,11 +5,6 @@ const PORT = 8080;
 
 const server = net.createServer(socket => {
   socket.on("data", chunk => {
-    // read incoming data
-    console.log("data");
-    console.log(chunk.toString());
-
-    // parse the string
     let arr = chunk.toString().split("\r\n");
 
     let requestObj = {};
@@ -19,8 +14,6 @@ const server = net.createServer(socket => {
     requestObj.userAgent = arr[2].slice(arr[2].indexOf(" ") + 1);
     requestObj.accept = arr[3].slice(arr[3].indexOf(" ") + 1);
     requestObj.message = arr[arr.length - 1];
-
-    console.log(requestObj);
 
     let date = new Date();
 
@@ -36,7 +29,6 @@ const server = net.createServer(socket => {
       Connection: "keep-alive"
     };
 
-    // grab the right file
     if (requestedDoc === "/" || requestdDoc === "/index.html") {
       message = files.index;
       responseObj["Status Line"] = ["HTTP/1.1", "200", "OK"];
@@ -60,15 +52,14 @@ const server = net.createServer(socket => {
       responseObj["Content-type"] = "text/plain; charset=UTF-8";
     }
 
-    console.log(responseObj);
+    responseObj["Content-length"] = message.length;
 
     let returnMsg =
-      responseObj.entries().reduce(function(accumulator, current) {
+      Object.entries(responseObj).reduce(function(accumulator, current) {
         return (accumulator += `${current[0]}: ${current[1]}\r\n`);
-      }, `${responseObj[0].join(" ")}\r\n`) + `\r\n\r\n${message.toString()}`;
+      }, `${responseObj["Status Line"].join(" ")}\r\n`) + `\r\n\r\n${message}`;
 
-    // write outgoing data
-    socket.write();
+    socket.write(returnMsg);
     socket.end();
   });
 
