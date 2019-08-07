@@ -46,7 +46,7 @@ const server = net.createServer(socket => {
       responseObj["Status Line"] = ["HTTP/1.1", "200", "OK"];
       responseObj["Content-type"] = "text/css";
     } else {
-      message = files.erro404;
+      message = files.error404;
 
       responseObj["Status Line"] = ["HTTP/1.0", "404", "Not Found"];
       responseObj["Content-type"] = "text/plain; charset=UTF-8";
@@ -65,11 +65,15 @@ const server = net.createServer(socket => {
 
   socket.on("end", () => {
     var msg = "connection ended";
-    socket.write(msg);
+    console.log("------------------------");
+    console.log("Message: " + "", msg);
+    console.log("------------------------");
   });
 
   socket.on("error", err => {
-    // handle error in connection
+    console.log("------------------------");
+    console.log("ERROR" + "", err);
+    console.log("------------------------");
   });
 });
 
