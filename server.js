@@ -29,18 +29,18 @@ const server = net.createServer(socket => {
       Connection: "keep-alive"
     };
 
-    if (requestedDoc === "/" || requestdDoc === "/index.html") {
+    if (requestedDoc === "/" || requestedDoc === "/index.html") {
       message = files.index;
       responseObj["Status Line"] = ["HTTP/1.1", "200", "OK"];
-    } else if (requestedDoc === "/helium") {
+    } else if (requestedDoc === "/helium.html") {
       message = files.helium;
 
       responseObj["Status Line"] = ["HTTP/1.1", "200", "OK"];
-    } else if (requestedDoc === "/hydrogen") {
+    } else if (requestedDoc === "/hydrogen.html") {
       message = files.hydrogen;
 
       responseObj["Status Line"] = ["HTTP/1.1", "200", "OK"];
-    } else if (requestedDoc === "style") {
+    } else if (requestedDoc === "style.css") {
       message = files.style;
 
       responseObj["Status Line"] = ["HTTP/1.1", "200", "OK"];
@@ -64,7 +64,8 @@ const server = net.createServer(socket => {
   });
 
   socket.on("end", () => {
-    // handle client disconnect
+    var msg = "connection ended";
+    socket.write(msg);
   });
 
   socket.on("error", err => {
