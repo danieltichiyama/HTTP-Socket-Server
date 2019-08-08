@@ -7,8 +7,6 @@ const server = net.createServer(socket => {
   socket.on("data", chunk => {
     let arr = chunk.toString().split("\r\n");
 
-    console.log(arr);
-
     let requestObj = {};
 
     arr
